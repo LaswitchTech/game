@@ -1,7 +1,7 @@
 const Game = {
     buildingCost(baseCost, level) {
         const mult = Math.pow(1.5, level);
-        return { metal: Math.floor(baseCost.metal * mult), crystal: Math.floor(baseCost.crystal * mult), deuterium: Math.floor(baseCost.deuterium * mult) };
+        return { supply: Math.floor(baseCost.supply * mult), gas: Math.floor(baseCost.gas * mult) };
     },
 
     buildingProduction(base, level) {
@@ -28,9 +28,8 @@ const Game = {
 
     researchCost(baseCost, currentLevel) {
         return {
-            metal: Math.floor(baseCost.metal * Math.pow(currentLevel + 1, 3) * 1.5),
-            crystal: Math.floor(baseCost.crystal * Math.pow(currentLevel + 1, 3) * 1.5),
-            deuterium: Math.floor(baseCost.deuterium * Math.pow(currentLevel + 1, 3) * 1.5),
+            supply: Math.floor(baseCost.supply * Math.pow(currentLevel + 1, 3) * 1.5),
+            gas: Math.floor(baseCost.gas * Math.pow(currentLevel + 1, 3) * 1.5),
         };
     },
 

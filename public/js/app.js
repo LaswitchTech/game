@@ -40,12 +40,11 @@ const App = {
 
     updateResources() {
         if (!this.state.planet) return;
-        document.getElementById('res-metal').textContent = Game.formatResource(this.state.planet.resources.metal);
-        document.getElementById('res-crystal').textContent = Game.formatResource(this.state.planet.resources.crystal);
-        document.getElementById('res-deuterium').textContent = Game.formatResource(this.state.planet.resources.deuterium);
-        document.getElementById('res-metal-panel').textContent = Game.formatResource(this.state.planet.resources.metal);
-        document.getElementById('res-crystal-panel').textContent = Game.formatResource(this.state.planet.resources.crystal);
-        document.getElementById('res-deuterium-panel').textContent = Game.formatResource(this.state.planet.resources.deuterium);
+        const r = this.state.planet.resources;
+        document.getElementById('res-supply').textContent = Game.formatResource(r.supply);
+        document.getElementById('res-gas').textContent = Game.formatResource(r.gas);
+        document.getElementById('res-supply-panel').textContent = Game.formatResource(r.supply);
+        document.getElementById('res-gas-panel').textContent = Game.formatResource(r.gas);
     },
 
     updatePlanet() {
@@ -104,7 +103,7 @@ const App = {
         document.getElementById('modal-building-name').textContent = type.name;
         document.getElementById('modal-building-desc').textContent = type.description;
         document.getElementById('modal-building-cost').innerHTML =
-            `Cost: ${Game.formatResource(cost.metal)} metal, ${Game.formatResource(cost.crystal)} crystal, ${Game.formatResource(cost.deuterium)} deuterium<br>Time: ${Game.formatTime(type.base_time)}`;
+            `Cost: ${Game.formatResource(cost.supply)} supply, ${Game.formatResource(cost.gas)} gas<br>Time: ${Game.formatTime(type.base_time)}`;
         document.getElementById('modal-build-btn').onclick = () => this.buildBuilding(key);
         document.getElementById('building-modal').style.display = 'flex';
     },
@@ -162,7 +161,7 @@ const App = {
             <div class="tech-node ${cls}">
                 <div class="tech-name">${type.name}</div>
                 <div class="tech-desc">${type.description}</div>
-                <div class="tech-cost">Cost: ${Game.formatResource(cost.metal)} M, ${Game.formatResource(cost.crystal)} C, ${Game.formatResource(cost.deuterium)} D</div>
+                <div class="tech-cost">Cost: ${Game.formatResource(cost.supply)} supply, ${Game.formatResource(cost.gas)} gas</div>
                 ${type.effects?.length ? `<div class="tech-cost">Effects: ${type.effects.join(', ')}</div>` : ''}
                 <div class="tech-level">${type.prereq_met ? (researched ? `Level ${level} ✓` : 'Available to research') : prereqHtml}</div>
                 ${researched ? '' : `<button class="btn btn-secondary" style="margin-top:0.3rem; font-size:0.75rem;" onclick="App.startResearch('${key}')" ${!type.prereq_met ? 'disabled' : ''}>Research (${Game.formatTime(time)})</button>`}
@@ -205,7 +204,7 @@ const App = {
                         <span class="ship-count">${ship.count}</span>
                     </div>
                     <div class="ship-desc">${ship.description}</div>
-                    <div class="ship-cost">Cost: ${Game.formatResource(ship.cost.metal)} M, ${Game.formatResource(ship.cost.crystal)} C, ${Game.formatResource(ship.cost.deuterium)} D</div>
+                    <div class="ship-cost">Cost: ${Game.formatResource(ship.cost.supply)} supply, ${Game.formatResource(ship.cost.gas)} gas</div>
                     <div class="ship-stats">
                         <div class="stat stat-attack">⚔ ${ship.properties.attack}</div>
                         <div class="stat stat-shield">🛡 ${ship.properties.shield}</div>
