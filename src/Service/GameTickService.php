@@ -35,32 +35,28 @@ class GameTickService
         $energyBalance = $energyProduction - $energyConsumption;
 
         // Calculate resource production
-        $metalProd = 0;
-        $crystalProd = 0;
-        $deuteriumProd = 0;
+        $supplyProd = 0;
+        $gasProd = 0;
 
         foreach ($buildings as $building) {
             $type = \Game\BuildingTypes::get($building['building_key'], $faction);
             if ($type === null || $building['level'] < 1) continue;
             foreach ($type['base_production'] ?? [] as $res => $base) {
                 $prod = \Game\Formulas::buildingProduction($base, $building['level']);
-                if ($res === 'metal') $metalProd += $prod;
-                if ($res === 'crystal') $crystalProd += $prod;
-                if ($res === 'deuterium') $deuteriumProd += $prod;
+                if ($res === 'supply') $supplyProd += $prod;
+                if ($res === 'gas') $gasProd += $prod;
             }
         }
 
         // Energy penalty: if production < consumption, reduce production by 75%
         if ($energyBalance < 0) {
-            $metalProd = max(0, (int)($metalProd * 0.25));
-            $crystalProd = max(0, (int)($crystalProd * 0.25));
-            $deuteriumProd = max(0, (int)($deuteriumProd * 0.25));
+            $supplyProd = max(0, (int)($supplyProd * 0.25));
+            $gasProd = max(0, (int)($gasProd * 0.25));
         }
 
         // Calculate storage
-        $metalStorage = 5000;
-        $crystalStorage = 5000;
-        $deuteriumStorage = 5000;
+        $supplyStorage = 5000;
+        $gasStorage = 5000;
 
         foreach ($buildings as $building) {
             $type = \Game\BuildingTypes::get($building['building_key'], $faction);
@@ -68,22 +64,23 @@ class GameTickService
             foreach ($type['storage_bonus'] as $res => $bonus) {
                 if ($building['level'] > 0) {
                     $storage = \Game\Formulas::storageCapacity($bonus, $building['level']);
-                    if ($res === 'metal') $metalStorage += $storage;
-                    if ($res === 'crystal') $crystalStorage += $storage;
-                    if ($res === 'deuterium') $deuteriumStorage += $storage;
+                    if ($res === 'supply') $supplyStorage += $storage;
+                    if ($res === 'gas') $gasStorage += $storage;
                 }
             }
         }
 
         // Apply resource production
-        $newMetal = min($metalStorage, $resources['metal'] + $metalProd);
-        $newCrystal = min($crystalStorage, $resources['crystal'] + $crystalProd);
-        $newDeuterium = min($deuteriumStorage, $resources['deuterium'] + $deuteriumProd);
+        $newSupply = min($supplyStorage, $resources['supply'] + $supplyProd);
+        $newGas = min($gasStorage, $resources['gas'] + $gasProd);
 
         $planet->updateResources(
-            $newMetal, $newCrystal, $newDeuterium,
+            $newSupply,
+            $resources['power'],
+            $newGas,
             $energyProduction, $energyConsumption,
-            $metalStorage, $crystalStorage, $deuteriumStorage
+            $energyBalance,
+            $supplyStorage, $gasStorage
         );
 
         // Process construction queue

@@ -77,6 +77,7 @@ class ShipyardController
 
         if (empty($ships)) return ['error' => 'No ships specified'];
 
-        return Ship::build($planet->getId(), $ships, $planet->getResources());
+        $resources = $planet->getResources();
+        return Ship::build($planet->getId(), $ships, $resources['supply'], $resources['gas']);
     }
 }

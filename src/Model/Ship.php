@@ -31,27 +31,26 @@ class Ship
             ->execute([$planetId, $key, $count, $f, $count, $f]);
     }
 
-    public static function build(int $planetId, array $ships, int $metal, int $crystal, int $deuterium): array
+    public static function build(int $planetId, array $ships, int $supply, int $gas): array
     {
         $db = Connection::getInstance();
         $faction = Planet::findByUserId(\Model\User::findById($planetId)?->getUserId())?->getFaction();
 
         // Deduct resources
-        $totalMetal = 0, $totalCrystal = 0, $totalDeuterium = 0;
+        $totalSupply = 0, $totalGas = 0;
         foreach ($ships as $key => $count) {
             $type = \Game\TechnologyTypes::getShip($key, $faction);
             if ($type === null) continue;
-            $totalMetal += $type['base_cost']['metal'] * $count;
-            $totalCrystal += $type['base_cost']['crystal'] * $count;
-            $totalDeuterium += $type['base_cost']['deuterium'] * $count;
+            $totalSupply += ($type['base_cost']['supply'] ?? 0) * $count;
+            $totalGas += ($type['base_cost']['gas'] ?? 0) * $count;
         }
 
-        if ($metal < $totalMetal || $crystal < $totalCrystal || $deuterium < $totalDeuterium) {
+        if ($supply < $totalSupply || $gas < $totalGas) {
             return ['success' => false, 'error' => 'Insufficient resources'];
         }
 
-        $db->prepare('UPDATE resources SET metal = metal - ?, crystal = crystal - ?, deuterium = deuterium - ? WHERE planet_id = ?')
-            ->execute([$totalMetal, $totalCrystal, $totalDeuterium, $planetId]);
+        $db->prepare('UPDATE resources SET supply = supply - ?, gas = gas - ? WHERE planet_id = ?')
+            ->execute([$totalSupply, $totalGas, $planetId]);
 
         // Build ships
         foreach ($ships as $key => $count) {

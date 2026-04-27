@@ -68,7 +68,7 @@ class PlanetController
         }
 
         $resources = $planet->getResources();
-        $energyBalance = $resources['energy_production'] - $resources['energy_consumption'];
+        $energyBalance = $resources['power_production'] - $resources['power_consumption'];
 
         return [
             'planet' => ['id' => $planet->getId(), 'name' => $planet->getName(), 'system' => $planet->getSystem(), 'position' => $planet->getPosition(), 'faction' => $faction],
@@ -104,19 +104,21 @@ class PlanetController
 
         $costMult = pow(1.5, $level);
         $cost = [
-            'metal' => (int)($type['base_cost']['metal'] * $costMult),
-            'crystal' => (int)($type['base_cost']['crystal'] * $costMult),
-            'deuterium' => (int)($type['base_cost']['deuterium'] * $costMult),
+            'supply' => (int)($type['base_cost']['supply'] * $costMult),
+            'gas' => (int)($type['base_cost']['gas'] * $costMult),
         ];
         $res = $planet->getResources();
-        if ($res['metal'] < $cost['metal'] || $res['crystal'] < $cost['crystal'] || $res['deuterium'] < $cost['deuterium']) {
+        if ($res['supply'] < $cost['supply'] || $res['gas'] < $cost['gas']) {
             return ['error' => 'Insufficient resources'];
         }
 
         $planet->updateResources(
-            $res['metal'] - $cost['metal'], $res['crystal'] - $cost['crystal'], $res['deuterium'] - $cost['deuterium'],
-            $res['energy_production'], $res['energy_consumption'],
-            $res['metal_storage'], $res['crystal_storage'], $res['deuterium_storage']
+            $res['supply'] - $cost['supply'],
+            $res['power'],
+            $res['gas'] - $cost['gas'],
+            $res['power_production'], $res['power_consumption'],
+            $res['energy_balance'],
+            $res['supply_storage'], $res['gas_storage']
         );
 
         $buildTime = Formulas::constructionTime($type, $level + 1);
@@ -149,14 +151,17 @@ class PlanetController
 
         $cost = Formulas::researchCost($tech['base_cost'], $level);
         $res = $planet->getResources();
-        if ($res['metal'] < $cost['metal'] || $res['crystal'] < $cost['crystal'] || $res['deuterium'] < $cost['deuterium']) {
+        if ($res['supply'] < $cost['supply'] || $res['gas'] < $cost['gas']) {
             return ['error' => 'Insufficient resources'];
         }
 
         $planet->updateResources(
-            $res['metal'] - $cost['metal'], $res['crystal'] - $cost['crystal'], $res['deuterium'] - $cost['deuterium'],
-            $res['energy_production'], $res['energy_consumption'],
-            $res['metal_storage'], $res['crystal_storage'], $res['deuterium_storage']
+            $res['supply'] - $cost['supply'],
+            $res['power'],
+            $res['gas'] - $cost['gas'],
+            $res['power_production'], $res['power_consumption'],
+            $res['energy_balance'],
+            $res['supply_storage'], $res['gas_storage']
         );
 
         $researchTime = Formulas::researchTime($tech, $level);
@@ -180,9 +185,8 @@ class PlanetController
             $level = Building::getLevel($planet->getId(), $key);
             $costMult = pow(1.5, $level);
             $cost = [
-                'metal' => (int)($building['base_cost']['metal'] * $costMult),
-                'crystal' => (int)($building['base_cost']['crystal'] * $costMult),
-                'deuterium' => (int)($building['base_cost']['deuterium'] * $costMult),
+                'supply' => (int)($building['base_cost']['supply'] * $costMult),
+                'gas' => (int)($building['base_cost']['gas'] * $costMult),
             ];
             $constructionTime = Formulas::constructionTime($building, $level + 1);
             $prereqMet = $building['required_tech'] === null || Technology::hasTech($planet->getId(), $building['required_tech']);
