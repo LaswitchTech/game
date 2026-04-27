@@ -47,20 +47,24 @@ class Planet
         $stmt = $db->prepare('SELECT * FROM resources WHERE planet_id = ?');
         $stmt->execute([$this->id]);
         $row = $stmt->fetch();
-        if (!$row) return ['metal' => 500, 'crystal' => 500, 'deuterium' => 0, 'energy_production' => 0, 'energy_consumption' => 0, 'metal_storage' => 5000, 'crystal_storage' => 5000, 'deuterium_storage' => 5000];
+        if (!$row) return [
+            'supply' => 500, 'power' => 0, 'gas' => 0,
+            'power_production' => 0, 'power_consumption' => 0, 'energy_balance' => 0,
+            'supply_storage' => 5000, 'gas_storage' => 5000,
+        ];
         return [
-            'metal' => (int)$row['metal'], 'crystal' => (int)$row['crystal'],
-            'deuterium' => (int)$row['deuterium'], 'energy_production' => (int)$row['energy_production'],
-            'energy_consumption' => (int)$row['energy_consumption'], 'metal_storage' => (int)$row['metal_storage'],
-            'crystal_storage' => (int)$row['crystal_storage'], 'deuterium_storage' => (int)$row['deuterium_storage'],
+            'supply' => (int)$row['supply'], 'power' => (int)$row['power'], 'gas' => (int)$row['gas'],
+            'power_production' => (int)$row['power_production'], 'power_consumption' => (int)$row['power_consumption'],
+            'energy_balance' => (int)$row['energy_balance'],
+            'supply_storage' => (int)$row['supply_storage'], 'gas_storage' => (int)$row['gas_storage'],
         ];
     }
 
-    public function updateResources(int $metal, int $crystal, int $deuterium, int $energyProduction, int $energyConsumption, int $metalStorage, int $crystalStorage, int $deuteriumStorage): void
+    public function updateResources(int $supply, int $power, int $gas, int $powerProduction, int $powerConsumption, int $energyBalance, int $supplyStorage, int $gasStorage): void
     {
         $db = Connection::getInstance();
-        $db->prepare('UPDATE resources SET metal = ?, crystal = ?, deuterium = ?, energy_production = ?, energy_consumption = ?, metal_storage = ?, crystal_storage = ?, deuterium_storage = ? WHERE planet_id = ?')
-            ->execute([$metal, $crystal, $deuterium, $energyProduction, $energyConsumption, $metalStorage, $crystalStorage, $deuteriumStorage, $this->id]);
+        $db->prepare('UPDATE resources SET supply = ?, power = ?, gas = ?, power_production = ?, power_consumption = ?, energy_balance = ?, supply_storage = ?, gas_storage = ? WHERE planet_id = ?')
+            ->execute([$supply, $power, $gas, $powerProduction, $powerConsumption, $energyBalance, $supplyStorage, $gasStorage, $this->id]);
     }
 
     public function getBuildings(): array
@@ -95,7 +99,7 @@ class Planet
         $id = (int)$db->lastInsertId();
 
         // Create default resources
-        $db->prepare('INSERT INTO resources (planet_id, metal, crystal, deuterium, energy_production, energy_consumption, metal_storage, crystal_storage, deuterium_storage) VALUES (?, 500, 500, 0, 0, 0, 5000, 5000, 5000)')
+        $db->prepare('INSERT INTO resources (planet_id, supply, power, gas, power_production, power_consumption, energy_balance, supply_storage, gas_storage) VALUES (?, 500, 0, 0, 0, 0, 0, 5000, 5000)')
             ->execute([$id]);
 
         return $id;

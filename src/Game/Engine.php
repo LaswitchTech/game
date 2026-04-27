@@ -44,9 +44,9 @@ class Engine
             $buildingLevels[$b['building_key']] = $b['level'];
         }
 
-        // 1. Calculate energy balance
-        $energyProduction = 0;
-        $energyConsumption = 0;
+        // 1. Calculate power balance
+        $powerProduction = 0;
+        $powerConsumption = 0;
 
         foreach ($buildingLevels as $key => $level) {
             if ($level < 1) {
@@ -54,21 +54,26 @@ class Engine
             }
 
             if (BuildingTypes::isEnergyBuilding($key)) {
-                $energyProduction += Formulas::energyProduction($key, $level);
+                $building = BuildingTypes::get($key);
+                if ($building !== null && isset($building['base_energy_production'])) {
+                    $powerProduction += Formulas::energyProduction($building['base_energy_production'], $level);
+                }
             } else {
-                $energyConsumption += Formulas::buildingEnergyConsumption($key, $level);
+                $building = BuildingTypes::get($key);
+                if ($building !== null && isset($building['energy_consumption'])) {
+                    $powerConsumption += Formulas::buildingEnergyConsumption($building['energy_consumption'], $level);
+                }
             }
         }
 
-        $energyBalance = Formulas::energyBalance($energyProduction, $energyConsumption);
+        $energyBalance = Formulas::energyBalance($powerProduction, $powerConsumption);
 
-        // If energy is negative, reduce resource production by 75%
+        // If power is negative, reduce resource production by 75%
         $productionPenalty = $energyBalance < 0 ? 0.25 : 1.0;
 
         // 2. Calculate resource production
-        $metalProduction = 0;
-        $crystalProduction = 0;
-        $deuteriumProduction = 0;
+        $supplyProduction = 0;
+        $gasProduction = 0;
 
         foreach ($buildingLevels as $key => $level) {
             if ($level < 1) {
@@ -84,28 +89,21 @@ class Engine
                 continue;
             }
 
-            $production = Formulas::buildingProduction($key, $level) * $productionPenalty;
-
-            if (isset($building['base_production']['metal'])) {
-                $metalProduction += $production;
+            if (isset($building['base_production']['supply'])) {
+                $supplyProduction += Formulas::buildingProduction($building['base_production']['supply'], $level) * $productionPenalty;
             }
-            if (isset($building['base_production']['crystal'])) {
-                $crystalProduction += $production;
-            }
-            if (isset($building['base_production']['deuterium'])) {
-                $deuteriumProduction += $production;
+            if (isset($building['base_production']['gas'])) {
+                $gasProduction += Formulas::buildingProduction($building['base_production']['gas'], $level) * $productionPenalty;
             }
         }
 
         // 3. Calculate storage capacities
-        $metalStorage = Formulas::calculateStorage('metal', $buildingLevels);
-        $crystalStorage = Formulas::calculateStorage('crystal', $buildingLevels);
-        $deuteriumStorage = Formulas::calculateStorage('deuterium', $buildingLevels);
+        $supplyStorage = Formulas::calculateStorage('supply', $buildingLevels);
+        $gasStorage = Formulas::calculateStorage('gas', $buildingLevels);
 
         // 4. Apply production (capped at storage)
-        $newMetal = min($resources['metal'] + $metalProduction, $metalStorage);
-        $newCrystal = min($resources['crystal'] + $crystalProduction, $crystalStorage);
-        $newDeuterium = min($resources['deuterium'] + $deuteriumProduction, $deuteriumStorage);
+        $newSupply = min($resources['supply'] + $supplyProduction, $supplyStorage);
+        $newGas = min($resources['gas'] + $gasProduction, $gasStorage);
 
         // 5. Complete construction
         $buildingsUpdated = $this->completeConstruction($planet, $buildingLevels);
@@ -121,14 +119,14 @@ class Engine
 
         // 7. Update planet resources
         $planet->updateResources(
-            $newMetal,
-            $newCrystal,
-            $newDeuterium,
-            $energyProduction,
-            $energyConsumption,
-            $metalStorage,
-            $crystalStorage,
-            $deuteriumStorage
+            $newSupply,
+            0,
+            $newGas,
+            $powerProduction,
+            $powerConsumption,
+            $energyBalance,
+            $supplyStorage,
+            $gasStorage
         );
 
         // 8. Check fleet missions
@@ -138,11 +136,10 @@ class Engine
         if ($this->gameTick % 10 === 0) {
             $planet->recordProductionHistory(
                 $this->gameTick,
-                $newMetal,
-                $newCrystal,
-                $newDeuterium,
-                $energyProduction,
-                $energyConsumption
+                $newSupply,
+                $newPower,
+                $newGas,
+                $energyBalance
             );
         }
     }
