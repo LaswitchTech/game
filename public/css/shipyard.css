@@ -1,0 +1,30 @@
+/* Shipyard faction-themed */
+.fleet-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.ship-row { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: var(--bg-input); border-radius: 4px; }
+.ship-name { font-size: 0.85rem; }
+.ship-count { font-weight: bold; color: var(--accent); }
+
+.ship-types-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem; }
+.ship-type-card { background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 0.8rem; }
+.ship-type-card .ship-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem; }
+.ship-type-card .ship-header .ship-name { font-weight: bold; font-size: 0.85rem; color: var(--accent); }
+.ship-type-card .ship-header .ship-count { color: var(--accent); }
+.ship-type-card .ship-desc { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.3rem; }
+.ship-type-card .ship-cost { font-size: 0.7rem; color: var(--text-secondary); }
+.ship-type-card .ship-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.3rem; margin-top: 0.3rem; font-size: 0.7rem; }
+.ship-type-card .stat { text-align: center; padding: 0.2rem; background: rgba(0,0,0,0.2); border-radius: 3px; }
+.stat-attack { color: var(--danger); }
+.stat-shield { color: #3498db; }
+.stat-armor { color: var(--warning); }
+
+.ship-build-section { margin-top: 0.5rem; display: flex; gap: 0.3rem; align-items: center; }
+.ship-build-section input { width: 60px; padding: 0.2rem; background: var(--bg-dark); border: 1px solid var(--border); border-radius: 3px; color: var(--text-primary); font-size: 0.75rem; text-align: center; }
+.ship-build-section button { padding: 0.2rem 0.5rem; font-size: 0.7rem; }
+.ship-locked { opacity: 0.5; font-size: 0.75rem; color: var(--text-secondary); }
+
+/* Covenant ships have more attack/shield */
+body.faction-covenant .stat-attack { color: var(--accent); }
+body.faction-covenant .stat-shield { color: #e67e22; }
+
+/* UNSC ships have more speed */
+body.faction-unsc .stat-armor { color: var(--accent); }

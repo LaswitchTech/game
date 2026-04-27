@@ -1,0 +1,15 @@
+/* Auth page styles */
+.auth-container { max-width: 400px; margin: 2rem auto; padding: 2rem; }
+.auth-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+.auth-tab { flex: 1; padding: 0.8rem; border: none; background: var(--bg-input); color: var(--text-secondary); border-radius: 4px; cursor: pointer; font-size: 1rem; }
+.auth-tab.active { background: var(--accent); color: white; }
+
+.faction-selector { display: flex; gap: 1rem; margin: 1rem 0; }
+.faction-option { flex: 1; padding: 1rem; border: 2px solid var(--border); border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.3s; }
+.faction-option:hover { border-color: var(--text-secondary); }
+.faction-option.selected { border-color: var(--accent); background: var(--bg-input); }
+.faction-option h4 { margin-bottom: 0.3rem; }
+.faction-option.unsc h4 { color: var(--accent); }
+.faction-option.covenant h4 { color: var(--accent); }
+.faction-option p { font-size: 0.8rem; color: var(--text-secondary); }
+.faction-icon { font-size: 2rem; margin-bottom: 0.5rem; }

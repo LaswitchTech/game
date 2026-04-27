@@ -1,0 +1,18 @@
+/* Research faction-themed */
+.tech-tree { display: flex; flex-direction: column; gap: 0.5rem; }
+.tech-node { background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 0.8rem; }
+.tech-node.researched { border-color: var(--success); }
+.tech-node.available { border-color: var(--accent); }
+.tech-node.locked { opacity: 0.5; }
+.tech-node .tech-name { font-weight: bold; color: var(--accent); font-size: 0.9rem; }
+.tech-node .tech-desc { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.2rem; }
+.tech-node .tech-cost { font-size: 0.75rem; margin-top: 0.3rem; }
+.tech-node .tech-level { font-size: 0.75rem; color: var(--success); }
+.tech-node .tech-prereq { font-size: 0.7rem; color: var(--warning); margin-top: 0.2rem; }
+
+.tech-section { margin-top: 1rem; }
+.tech-section h4 { color: var(--accent); margin-bottom: 0.5rem; font-size: 0.95rem; }
+
+.tech-progress { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.3rem; font-size: 0.75rem; }
+.tech-progress .tech-progress-bar { flex: 1; height: 4px; background: var(--bg-dark); border-radius: 2px; }
+.tech-progress .tech-progress-fill { height: 100%; background: var(--accent); border-radius: 2px; }

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galactic Empire - Fleet</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/fleet.css">
+</head>
+<body class="faction-unsc">
+    <div class="game-layout">
+        <nav class="top-bar">
+            <div class="top-bar-left">
+                <a href="planet.html" class="game-title">Galactic Empire</a>
+                <span id="faction-badge" style="margin-left:0.5rem; font-size:0.8rem; color:var(--accent);"></span>
+            </div>
+            <div class="resource-bar">
+                <span class="resource metal"> <span id="res-metal">0</span></span>
+                <span class="resource crystal"> <span id="res-crystal">0</span></span>
+                <span class="resource deuterium"> <span id="res-deuterium">0</span></span>
+            </div>
+            <div class="top-bar-right">
+                <a href="planet.html" class="nav-link">Planet</a>
+                <a href="shipyard.html" class="nav-link">Shipyard</a>
+                <a href="research.html" class="nav-link">Research</a>
+                <a href="fleet.html" class="nav-link active">Fleet</a>
+                <a href="#" class="nav-link" id="logout-btn">Logout</a>
+            </div>
+        </nav>
+        <main class="main-content">
+            <h1>Fleet Command</h1>
+            <div class="fleet-grid">
+                <div class="panel">
+                    <h3>Dispatch Fleet</h3>
+                    <div class="dispatch-form">
+                        <div class="form-group">
+                            <label>Target System</label>
+                            <input type="number" id="target-system" min="1" value="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Target Planet</label>
+                            <input type="number" id="target-planet" min="1" value="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Mission Type</label>
+                            <select id="mission-type">
+                                <option value="trade">Trade</option>
+                                <option value="attack">Attack</option>
+                            </select>
+                        </div>
+                        <button id="dispatch-btn" class="btn btn-primary">Dispatch</button>
+                    </div>
+                </div>
+                <div class="panel">
+                    <h3>My Ships</h3>
+                    <div id="my-ships" class="my-ships-list"><p class="empty-queue">No ships</p></div>
+                </div>
+                <div class="panel">
+                    <h3>Active Missions</h3>
+                    <div id="active-missions" class="missions-list"><p class="empty-queue">No active missions</p></div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="../js/api.js"></script>
+    <script src="../js/game.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/ui.js"></script>
+    <script>
+        document.getElementById('logout-btn').addEventListener('click', e => {
+            e.preventDefault();
+            Api.logout().then(() => window.location.href = 'login.html');
+        });
+        App.init('fleet');
+    </script>
+</body>
+</html>

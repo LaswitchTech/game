@@ -1,0 +1,17 @@
+{
+    "name": "laswitchtech/game",
+    "description": "OGame-like browser-based space strategy game",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Game\\": "src/Game/",
+            "Model\\": "src/Model/",
+            "Database\\": "src/Database/",
+            "Service\\": "src/Service/",
+            "Api\\": "src/Api/"
+        }
+    },
+    "config": {
+        "platformCheck": false
+    }
+}

@@ -1,0 +1,13 @@
+/* Fleet faction-themed */
+.fleet-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+.dispatch-form { display: flex; flex-direction: column; gap: 0.8rem; }
+.missions-list { max-height: 400px; overflow-y: auto; }
+.mission-item { padding: 0.5rem; border-bottom: 1px solid var(--border); }
+.mission-item:last-child { border-bottom: none; }
+.mission-coords { font-weight: bold; color: var(--accent); }
+.mission-type { font-size: 0.75rem; text-transform: uppercase; color: var(--text-secondary); }
+.mission-time { font-size: 0.75rem; color: var(--text-secondary); }
+.my-ships-list { display: flex; flex-direction: column; gap: 0.3rem; }
+.my-ship-row { display: flex; justify-content: space-between; align-items: center; padding: 0.3rem 0.5rem; background: var(--bg-input); border-radius: 4px; font-size: 0.8rem; }
+.my-ship-row input[type="checkbox"] { width: auto; }
+.my-ship-row input[type="number"] { width: 50px; padding: 0.2rem; background: var(--bg-dark); border: 1px solid var(--border); border-radius: 3px; color: var(--text-primary); font-size: 0.75rem; text-align: center; }

@@ -1,0 +1,25 @@
+.planet-header { margin-bottom: 1.5rem; }
+.planet-header h1 { color: var(--accent); font-size: 1.5rem; }
+.planet-coords { color: var(--text-secondary); font-size: 0.85rem; }
+.planet-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
+.resource-overview { display: flex; flex-direction: column; gap: 0.5rem; }
+.res-row { display: flex; justify-content: space-between; padding: 0.3rem 0; border-bottom: 1px solid var(--border); }
+.res-name { color: var(--text-secondary); }
+.res-value { font-weight: bold; }
+
+.building-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.5rem; }
+.building-cell { background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 0.8rem; text-align: center; cursor: pointer; transition: all 0.2s; }
+.building-cell:hover { border-color: var(--accent); transform: translateY(-2px); }
+.building-cell .building-name { font-size: 0.8rem; color: var(--text-primary); margin-bottom: 0.3rem; }
+.building-cell .building-level { font-size: 1.2rem; font-weight: bold; color: var(--accent); }
+.building-cell .building-prod { font-size: 0.7rem; color: var(--success); margin-top: 0.2rem; }
+.building-cell .building-consume { font-size: 0.7rem; color: var(--warning); }
+.building-cell.locked { opacity: 0.5; cursor: not-allowed; }
+
+/* Covenant-specific building colors */
+body.faction-covenant .building-cell .building-prod { color: var(--accent); }
+body.faction-covenant .building-cell .building-consume { color: var(--danger); }
+
+/* UNSC-specific building colors */
+body.faction-unsc .building-cell .building-prod { color: var(--accent); }
+body.faction-unsc .building-cell .building-consume { color: var(--warning); }

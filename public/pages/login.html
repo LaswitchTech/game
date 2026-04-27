@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galactic Empire - Login</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    <style>
+        .faction-preview { margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-secondary); }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <h1 style="text-align:center; color: var(--accent); margin-bottom: 0.5rem;">Galactic Empire</h1>
+        <p style="text-align:center; color: var(--text-secondary); margin-bottom: 2rem;">Conquer the stars</p>
+
+        <!-- Login form -->
+        <div id="login-form">
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="showLogin()">Login</button>
+                <button class="auth-tab" onclick="showRegister()">Register</button>
+            </div>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="login-username" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="login-password" placeholder="Enter password">
+            </div>
+            <button class="btn btn-primary" style="width:100%" onclick="doLogin()">Login</button>
+            <div id="login-msg" class="message" style="display:none;"></div>
+        </div>
+
+        <!-- Register form -->
+        <div id="register-form" style="display:none;">
+            <div class="auth-tabs">
+                <button class="auth-tab" onclick="showLogin()">Login</button>
+                <button class="auth-tab active" onclick="showRegister()">Register</button>
+            </div>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="reg-username" placeholder="Choose a username">
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="reg-email" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="reg-password" placeholder="Choose a password">
+            </div>
+            <h3 style="color: var(--accent); margin: 1rem 0 0.5rem;">Choose Your Faction</h3>
+            <div class="faction-selector">
+                <div class="faction-option unsc" onclick="selectFaction('unsc')" id="unsc-option">
+                    <div class="faction-icon">&#9998;</div>
+                    <h4>UNSC</h4>
+                    <p>Human Alliance ships. Faster vessels, cheaper resource buildings.</p>
+                </div>
+                <div class="faction-option covenant" onclick="selectFaction('covenant')" id="covenant-option">
+                    <div class="faction-icon">&#9876;</div>
+                    <h4>Covenant</h4>
+                    <p>Holy Hegemony fleet. Stronger ships, better energy production.</p>
+                </div>
+            </div>
+            <button class="btn btn-primary" style="width:100%" onclick="doRegister()">Register</button>
+            <div id="register-msg" class="message" style="display:none;"></div>
+        </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script>
+        let selectedFaction = 'unsc';
+
+        function showLogin() {
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('register-form').style.display = 'none';
+        }
+
+        function showRegister() {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('register-form').style.display = 'block';
+        }
+
+        function selectFaction(faction) {
+            selectedFaction = faction;
+            document.getElementById('unsc-option').classList.toggle('selected', faction === 'unsc');
+            document.getElementById('covenant-option').classList.toggle('selected', faction === 'covenant');
+        }
+
+        function showMsg(id, text, type) {
+            const el = document.getElementById(id);
+            el.textContent = text;
+            el.className = 'message ' + type;
+            el.style.display = 'block';
+            setTimeout(() => el.style.display = 'none', 5000);
+        }
+
+        async function doLogin() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            const result = await Api.login(username, password);
+            if (result.user_id) {
+                window.location.href = '../pages/planet.html';
+            } else {
+                showMsg('login-msg', result.error, 'error');
+            }
+        }
+
+        async function doRegister() {
+            const username = document.getElementById('reg-username').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            const result = await Api.register(username, email, password, selectedFaction);
+            if (result.user_id) {
+                showMsg('register-msg', 'Account created! Logging in...', 'success');
+                const loginResult = await Api.login(username, password);
+                if (loginResult.user_id) {
+                    window.location.href = '../pages/planet.html';
+                }
+            } else {
+                showMsg('register-msg', result.error, 'error');
+            }
+        }
+
+        // Default to UNSC
+        selectFaction('unsc');
+    </script>
+</body>
+</html>

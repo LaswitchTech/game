@@ -1,0 +1,13 @@
+# Serve static files directly
+<IfModule mod_mime.c>
+    AddType text/css .css
+    AddType application/javascript .js
+    AddType image/x-icon .ico
+    AddType image/svg+xml .svg
+</IfModule>
+
+# Disable directory listing
+Options -Indexes
+
+# Set default charset
+AddDefaultCharset UTF-8
