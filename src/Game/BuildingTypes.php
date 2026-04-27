@@ -6,37 +6,37 @@ class BuildingTypes
 {
     private static array $buildings = [
         'unsc' => [
-            'metal_refinery' => [
-                'name' => 'Metal Refinery',
-                'description' => 'Refines metal ore from the planet crust.',
-                'base_cost' => ['metal' => 70, 'crystal' => 20, 'deuterium' => 0],
-                'base_production' => ['metal' => 35],
+            'supply_mine' => [
+                'name' => 'Supply Mine',
+                'description' => 'Extracts supply materials from the planet crust.',
+                'base_cost' => ['supply' => 70, 'gas' => 20],
+                'base_production' => ['supply' => 35],
                 'base_time' => 20,
                 'energy_consumption' => 10,
                 'required_tech' => null,
             ],
-            'crystal_extractor' => [
-                'name' => 'Crystal Extractor',
-                'description' => 'Extracts crystal deposits.',
-                'base_cost' => ['metal' => 55, 'crystal' => 30, 'deuterium' => 0],
-                'base_production' => ['crystal' => 25],
+            'gas_extractor' => [
+                'name' => 'Gas Extractor',
+                'description' => 'Harvests atmospheric gas deposits.',
+                'base_cost' => ['supply' => 55, 'gas' => 30],
+                'base_production' => ['gas' => 25],
                 'base_time' => 15,
                 'energy_consumption' => 10,
                 'required_tech' => null,
             ],
-            'deuterium_condenser' => [
-                'name' => 'Deuterium Condenser',
-                'description' => 'Condenses deuterium from heavy water.',
-                'base_cost' => ['metal' => 250, 'crystal' => 80, 'deuterium' => 0],
-                'base_production' => ['deuterium' => 10],
+            'gas_condenser' => [
+                'name' => 'Gas Condenser',
+                'description' => 'Condenses gas from heavy deposits.',
+                'base_cost' => ['supply' => 250, 'gas' => 80],
+                'base_production' => ['gas' => 10],
                 'base_time' => 60,
                 'energy_consumption' => 25,
                 'required_tech' => 'energy_tech',
             ],
             'fusion_reactor' => [
                 'name' => 'Fusion Reactor',
-                'description' => 'Generates energy from fusion reactions.',
-                'base_cost' => ['metal' => 80, 'crystal' => 35, 'deuterium' => 0],
+                'description' => 'Generates power from fusion reactions.',
+                'base_cost' => ['supply' => 80, 'gas' => 35],
                 'base_production' => [],
                 'base_energy_production' => 25,
                 'base_time' => 30,
@@ -45,48 +45,38 @@ class BuildingTypes
             ],
             'heavy_fusion' => [
                 'name' => 'Heavy Fusion Reactor',
-                'description' => 'Generates high-yield energy from fusion.',
-                'base_cost' => ['metal' => 250, 'crystal' => 80, 'deuterium' => 200],
+                'description' => 'Generates high-yield power from fusion.',
+                'base_cost' => ['supply' => 250, 'gas' => 80],
                 'base_production' => [],
                 'base_energy_production' => 125,
                 'base_time' => 200,
                 'energy_consumption' => 0,
                 'required_tech' => 'industrial_mastery',
             ],
-            'metal_vault' => [
-                'name' => 'Metal Vault',
-                'description' => 'Stores refined metal.',
-                'base_cost' => ['metal' => 120, 'crystal' => 70, 'deuterium' => 0],
+            'supply_storage' => [
+                'name' => 'Supply Vault',
+                'description' => 'Stores refined supply.',
+                'base_cost' => ['supply' => 120, 'gas' => 70],
                 'base_production' => [],
-                'storage_bonus' => ['metal' => 600],
+                'storage_bonus' => ['supply' => 600],
                 'base_time' => 10,
                 'energy_consumption' => 0,
                 'required_tech' => null,
             ],
-            'crystal_vault' => [
-                'name' => 'Crystal Vault',
-                'description' => 'Stores refined crystal.',
-                'base_cost' => ['metal' => 120, 'crystal' => 70, 'deuterium' => 0],
+            'gas_storage' => [
+                'name' => 'Gas Vault',
+                'description' => 'Stores refined gas.',
+                'base_cost' => ['supply' => 120, 'gas' => 70],
                 'base_production' => [],
-                'storage_bonus' => ['crystal' => 600],
+                'storage_bonus' => ['gas' => 600],
                 'base_time' => 10,
                 'energy_consumption' => 0,
                 'required_tech' => null,
-            ],
-            'deuterium_tank' => [
-                'name' => 'Deuterium Tank',
-                'description' => 'Stores processed deuterium.',
-                'base_cost' => ['metal' => 120, 'crystal' => 70, 'deuterium' => 70],
-                'base_production' => [],
-                'storage_bonus' => ['deuterium' => 600],
-                'base_time' => 10,
-                'energy_consumption' => 0,
-                'required_tech' => 'energy_tech',
             ],
             'research_facility' => [
                 'name' => 'Research Facility',
                 'description' => 'Enables scientific research.',
-                'base_cost' => ['metal' => 250, 'crystal' => 450, 'deuterium' => 250],
+                'base_cost' => ['supply' => 250, 'gas' => 450],
                 'base_production' => [],
                 'base_energy_production' => 50,
                 'base_time' => 400,
@@ -96,7 +86,7 @@ class BuildingTypes
             'military_dock' => [
                 'name' => 'Military Dock',
                 'description' => 'Enables UNSC fleet construction.',
-                'base_cost' => ['metal' => 2500, 'crystal' => 1200, 'deuterium' => 8000],
+                'base_cost' => ['supply' => 2500, 'gas' => 1200],
                 'base_production' => [],
                 'base_energy_production' => 120,
                 'base_time' => 1200,
@@ -106,7 +96,7 @@ class BuildingTypes
             'armoury' => [
                 'name' => 'Armoury',
                 'description' => 'Enables advanced UNSC ship construction.',
-                'base_cost' => ['metal' => 50000, 'crystal' => 50000, 'deuterium' => 18000],
+                'base_cost' => ['supply' => 50000, 'gas' => 50000],
                 'base_production' => [],
                 'base_energy_production' => 220,
                 'base_time' => 28800,
@@ -116,7 +106,7 @@ class BuildingTypes
             'ai_core' => [
                 'name' => 'AI Core',
                 'description' => 'Advanced AI command system.',
-                'base_cost' => ['metal' => 200000, 'crystal' => 45000, 'deuterium' => 22000],
+                'base_cost' => ['supply' => 200000, 'gas' => 45000],
                 'base_production' => [],
                 'base_energy_production' => 350,
                 'base_time' => 72000,
@@ -126,7 +116,7 @@ class BuildingTypes
             'orbital_cannon' => [
                 'name' => 'Orbital Cannon',
                 'description' => 'Enhances orbital defense capability.',
-                'base_cost' => ['metal' => 2500, 'crystal' => 500, 'deuterium' => 700],
+                'base_cost' => ['supply' => 2500, 'gas' => 500],
                 'base_production' => [],
                 'base_energy_production' => 35,
                 'base_time' => 600,
@@ -136,7 +126,7 @@ class BuildingTypes
             'shield_gen' => [
                 'name' => 'Shield Generator',
                 'description' => 'Enhances planetary defense shields.',
-                'base_cost' => ['metal' => 1800, 'crystal' => 600, 'deuterium' => 1800],
+                'base_cost' => ['supply' => 1800, 'gas' => 600],
                 'base_production' => [],
                 'base_energy_production' => 30,
                 'base_time' => 450,
@@ -146,7 +136,7 @@ class BuildingTypes
             'plating_tech' => [
                 'name' => 'Plating Tech',
                 'description' => 'Reinforces hull plating technology.',
-                'base_cost' => ['metal' => 1800, 'crystal' => 1800, 'deuterium' => 0],
+                'base_cost' => ['supply' => 1800, 'gas' => 1800],
                 'base_production' => [],
                 'base_energy_production' => 25,
                 'base_time' => 450,
@@ -158,34 +148,34 @@ class BuildingTypes
             'energy_mine' => [
                 'name' => 'Energy Mine',
                 'description' => 'Harvests energy crystals from the crust.',
-                'base_cost' => ['metal' => 60, 'crystal' => 15, 'deuterium' => 0],
-                'base_production' => ['metal' => 30],
+                'base_cost' => ['supply' => 60, 'gas' => 15],
+                'base_production' => ['supply' => 30],
                 'base_time' => 20,
                 'energy_consumption' => 10,
                 'required_tech' => null,
             ],
             'crystal_extraction_array' => [
                 'name' => 'Crystal Extraction Array',
-                'description' => 'Extracts crystal deposits.',
-                'base_cost' => ['metal' => 48, 'crystal' => 24, 'deuterium' => 0],
-                'base_production' => ['crystal' => 20],
+                'description' => 'Extracts gas deposits.',
+                'base_cost' => ['supply' => 48, 'gas' => 24],
+                'base_production' => ['gas' => 20],
                 'base_time' => 15,
                 'energy_consumption' => 10,
                 'required_tech' => null,
             ],
             'deuterium_converter' => [
-                'name' => 'Deuterium Converter',
-                'description' => 'Converts heavy water to deuterium.',
-                'base_cost' => ['metal' => 225, 'crystal' => 75, 'deuterium' => 0],
-                'base_production' => ['deuterium' => 10],
+                'name' => 'Gas Converter',
+                'description' => 'Converts heavy water to gas.',
+                'base_cost' => ['supply' => 225, 'gas' => 75],
+                'base_production' => ['gas' => 10],
                 'base_time' => 60,
                 'energy_consumption' => 20,
                 'required_tech' => 'energy_tech',
             ],
             'power_generator' => [
                 'name' => 'Power Generator',
-                'description' => 'Generates energy from plasma.',
-                'base_cost' => ['metal' => 75, 'crystal' => 30, 'deuterium' => 0],
+                'description' => 'Generates power from plasma.',
+                'base_cost' => ['supply' => 75, 'gas' => 30],
                 'base_production' => [],
                 'base_energy_production' => 20,
                 'base_time' => 30,
@@ -194,48 +184,48 @@ class BuildingTypes
             ],
             'plasma_reactor' => [
                 'name' => 'Plasma Reactor',
-                'description' => 'Generates massive energy from plasma.',
-                'base_cost' => ['metal' => 225, 'crystal' => 75, 'deuterium' => 150],
+                'description' => 'Generates massive power from plasma.',
+                'base_cost' => ['supply' => 225, 'gas' => 75],
                 'base_production' => [],
                 'base_energy_production' => 100,
                 'base_time' => 200,
                 'energy_consumption' => 0,
                 'required_tech' => 'psionic_enhancement',
             ],
-            'energy_cell' => [
-                'name' => 'Energy Cell',
-                'description' => 'Stores harvested energy cells.',
-                'base_cost' => ['metal' => 100, 'crystal' => 60, 'deuterium' => 0],
+            'supply_cell' => [
+                'name' => 'Supply Cell',
+                'description' => 'Stores harvested supply cells.',
+                'base_cost' => ['supply' => 100, 'gas' => 60],
                 'base_production' => [],
-                'storage_bonus' => ['metal' => 500],
+                'storage_bonus' => ['supply' => 500],
                 'base_time' => 10,
                 'energy_consumption' => 0,
                 'required_tech' => null,
             ],
-            'power_cell' => [
-                'name' => 'Power Cell',
-                'description' => 'Stores harvested power cells.',
-                'base_cost' => ['metal' => 100, 'crystal' => 60, 'deuterium' => 0],
+            'gas_cell' => [
+                'name' => 'Gas Cell',
+                'description' => 'Stores harvested gas cells.',
+                'base_cost' => ['supply' => 100, 'gas' => 60],
                 'base_production' => [],
-                'storage_bonus' => ['crystal' => 500],
+                'storage_bonus' => ['gas' => 500],
                 'base_time' => 10,
                 'energy_consumption' => 0,
                 'required_tech' => null,
             ],
-            'deuterium_capacitor' => [
-                'name' => 'Deuterium Capacitor',
-                'description' => 'Stores deuterium capacitors.',
-                'base_cost' => ['metal' => 100, 'crystal' => 60, 'deuterium' => 60],
+            'research_facility' => [
+                'name' => 'Research Facility',
+                'description' => 'Enables scientific research.',
+                'base_cost' => ['supply' => 250, 'gas' => 450],
                 'base_production' => [],
-                'storage_bonus' => ['deuterium' => 500],
-                'base_time' => 10,
-                'energy_consumption' => 0,
-                'required_tech' => 'energy_tech',
+                'base_energy_production' => 50,
+                'base_time' => 400,
+                'energy_consumption' => 50,
+                'required_tech' => null,
             ],
             'forge' => [
                 'name' => 'Forge',
                 'description' => 'Enables Covenant fleet construction.',
-                'base_cost' => ['metal' => 2000, 'crystal' => 1000, 'deuterium' => 6000],
+                'base_cost' => ['supply' => 2000, 'gas' => 1000],
                 'base_production' => [],
                 'base_energy_production' => 100,
                 'base_time' => 1200,
@@ -245,7 +235,7 @@ class BuildingTypes
             'psionic_temple' => [
                 'name' => 'Psionic Temple',
                 'description' => 'Enables advanced Covenant construction.',
-                'base_cost' => ['metal' => 48000, 'crystal' => 48000, 'deuterium' => 16000],
+                'base_cost' => ['supply' => 48000, 'gas' => 48000],
                 'base_production' => [],
                 'base_energy_production' => 200,
                 'base_time' => 28800,
@@ -255,7 +245,7 @@ class BuildingTypes
             'sangheili_engine' => [
                 'name' => 'Sangheili Engine',
                 'description' => 'Advanced Sangheili engineering facility.',
-                'base_cost' => ['metal' => 200000, 'crystal' => 40000, 'deuterium' => 20000],
+                'base_cost' => ['supply' => 200000, 'gas' => 40000],
                 'base_production' => [],
                 'base_energy_production' => 300,
                 'base_time' => 72000,
@@ -265,7 +255,7 @@ class BuildingTypes
             'disruptor_cannon' => [
                 'name' => 'Disruptor Cannon',
                 'description' => 'Enhances orbital defense capability.',
-                'base_cost' => ['metal' => 2000, 'crystal' => 400, 'deuterium' => 600],
+                'base_cost' => ['supply' => 2000, 'gas' => 400],
                 'base_production' => [],
                 'base_energy_production' => 30,
                 'base_time' => 600,
@@ -275,7 +265,7 @@ class BuildingTypes
             'shadow_shield' => [
                 'name' => 'Shadow Shield',
                 'description' => 'Enhances defensive shields.',
-                'base_cost' => ['metal' => 1500, 'crystal' => 500, 'deuterium' => 1500],
+                'base_cost' => ['supply' => 1500, 'gas' => 500],
                 'base_production' => [],
                 'base_energy_production' => 25,
                 'base_time' => 450,
@@ -285,7 +275,7 @@ class BuildingTypes
             'reactor_plating' => [
                 'name' => 'Reactor Plating',
                 'description' => 'Reinforces reactor plating technology.',
-                'base_cost' => ['metal' => 1500, 'crystal' => 1500, 'deuterium' => 0],
+                'base_cost' => ['supply' => 1500, 'gas' => 1500],
                 'base_production' => [],
                 'base_energy_production' => 20,
                 'base_time' => 450,
@@ -295,7 +285,7 @@ class BuildingTypes
             'monitor_stasis_chamber' => [
                 'name' => 'Monitor Stasis Chamber',
                 'description' => 'Unique Covenant structure that powers nearby buildings.',
-                'base_cost' => ['metal' => 0, 'crystal' => 3000, 'deuterium' => 1000],
+                'base_cost' => ['supply' => 0, 'gas' => 3000],
                 'base_production' => [],
                 'base_energy_production' => 50,
                 'base_time' => 1200,
@@ -342,12 +332,12 @@ class BuildingTypes
 
     public static function isResourceBuilding(string $key): bool
     {
-        return in_array($key, ['metal_refinery', 'metal_mine', 'crystal_extractor', 'crystal_mine', 'deuterium_condenser', 'deuterium_synthesizer']);
+        return in_array($key, ['supply_mine', 'gas_extractor', 'gas_condenser']);
     }
 
     public static function isStorageBuilding(string $key): bool
     {
-        return in_array($key, ['metal_vault', 'metal_storage', 'crystal_vault', 'crystal_storage', 'deuterium_tank', 'deuterium_storage']);
+        return in_array($key, ['supply_storage', 'gas_storage']);
     }
 
     public static function isEnergyBuilding(string $key): bool
