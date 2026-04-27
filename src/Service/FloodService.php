@@ -226,17 +226,14 @@ class FloodService
     private static function findNearbyPlanets(int $systemId): array
     {
         $db = \Database\Connection::getInstance();
-        // Get planets in the same system and adjacent systems
-        $sql = "SELECT p.id as planet_id, p.system as system_id, p.position as planet_pos
-                FROM planets p
-                WHERE p.system IN (?, ?, ?)
-                AND p.id NOT IN (SELECT planet_id FROM flood_state, json_each(flood_state.infected_planets) WHERE flood_state.id = 1)";
-        // This is simplified; in practice you'd use a different approach for JSON subquery
-        $stmt = $db->prepare("SELECT 1 as dummy LIMIT 1");
-        $stmt->execute();
+        $adjacent = [max(1, $systemId - 1), $systemId, $systemId + 1];
 
-        // For now, return empty — needs proper implementation with all planets table
-        return [];
+        $placeholders = implode(',', array_fill(0, count($adjacent), '?'));
+        $sql = "SELECT id as planet_id, system as system_id, position as planet_pos
+                FROM planets WHERE system IN ({$placeholders})";
+        $stmt = $db->prepare($sql);
+        $stmt->execute($adjacent);
+        return $stmt->fetchAll();
     }
 
     /**
