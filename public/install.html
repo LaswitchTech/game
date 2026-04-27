@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galactic Empire — Installation</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <style>
+        .install-container {
+            max-width: 480px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        .install-container h1 {
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        .install-container .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 2rem;
+        }
+        .install-form .form-group {
+            margin-bottom: 1rem;
+        }
+        .install-form .form-group label {
+            display: block;
+            margin-bottom: 0.3rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        .install-form .form-group input,
+        .install-form .form-group select {
+            width: 100%;
+            padding: 0.6rem;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+        .install-form .form-group small {
+            display: block;
+            margin-top: 0.2rem;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+        .install-msg {
+            text-align: center;
+            padding: 0.8rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            display: none;
+        }
+        .install-msg.success {
+            background: rgba(46, 204, 113, 0.2);
+            border: 1px solid var(--success);
+            color: var(--success);
+            display: block;
+        }
+        .install-msg.error {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+            display: block;
+        }
+        .faction-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+            margin-top: 0.5rem;
+        }
+        .faction-option {
+            padding: 0.8rem;
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .faction-option:hover {
+            border-color: var(--accent);
+        }
+        .faction-option.selected {
+            border-color: var(--accent);
+            background: rgba(20, 184, 166, 0.15);
+        }
+        .faction-option h4 {
+            margin: 0.3rem 0;
+            font-size: 0.9rem;
+        }
+        .faction-option p {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin: 0.3rem 0;
+        }
+        .section-title {
+            color: var(--accent);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 1.5rem 0 0.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+        .section-title:first-child {
+            border-top: none;
+            margin-top: 0;
+            padding-top: 0;
+        }
+    </style>
+</head>
+<body class="faction-unsc">
+    <div class="install-container">
+        <h1>Galactic Empire</h1>
+        <p class="subtitle">Welcome! Let's set up your galaxy.</p>
+
+        <form class="install-form" id="install-form" onsubmit="doInstall(event)">
+            <div class="section-title">Server</div>
+            <div class="form-group">
+                <label>Game Name</label>
+                <input type="text" id="game-name" value="Galactic Empire" readonly>
+            </div>
+
+            <div class="section-title">Administrator Account</div>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="install-username" placeholder="Choose a username" required minlength="3" maxlength="20" autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="install-email" placeholder="Enter your email" required autocomplete="email">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="install-password" placeholder="Choose a password" required minlength="6" autocomplete="new-password">
+            </div>
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" id="install-password-confirm" placeholder="Confirm your password" required autocomplete="new-password">
+            </div>
+
+            <div class="section-title">Faction</div>
+            <div class="faction-selector">
+                <div class="faction-option unsc selected" onclick="selectInstallFaction('unsc')">
+                    <h4>UNSC</h4>
+                    <p>Human Alliance. Faster vessels, cheaper resource buildings.</p>
+                </div>
+                <div class="faction-option covenant" onclick="selectInstallFaction('covenant')">
+                    <h4>Covenant</h4>
+                    <p>Holy Hegemony. Stronger ships, better energy production.</p>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%; margin-top:1.5rem;" id="install-btn">Install</button>
+            <div id="install-msg" class="install-msg"></div>
+        </form>
+
+        <div id="install-success" style="display:none; text-align:center;">
+            <h1 style="color:var(--success);">Installation Complete!</h1>
+            <p style="color:var(--text-secondary); margin:1rem 0;">Your galaxy is ready. Redirecting to login...</p>
+            <a href="index.php?page=login" class="btn btn-primary">Go to Login</a>
+        </div>
+    </div>
+
+    <script>
+        let installFaction = 'unsc';
+
+        function selectInstallFaction(faction) {
+            installFaction = faction;
+            document.querySelectorAll('.faction-option').forEach(el => {
+                el.classList.toggle('selected', el.classList.contains(faction));
+            });
+        }
+
+        function showMsg(text, type) {
+            const el = document.getElementById('install-msg');
+            el.textContent = text;
+            el.className = 'install-msg ' + type;
+        }
+
+        async function doInstall(e) {
+            e.preventDefault();
+
+            const btn = document.getElementById('install-btn');
+            btn.disabled = true;
+            btn.textContent = 'Installing...';
+
+            const password = document.getElementById('install-password').value;
+            const confirm = document.getElementById('install-password-confirm').value;
+
+            if (password !== confirm) {
+                showMsg('Passwords do not match', 'error');
+                btn.disabled = false;
+                btn.textContent = 'Install';
+                return;
+            }
+
+            const result = await fetch('api/install', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: document.getElementById('install-username').value,
+                    email: document.getElementById('install-email').value,
+                    password: password,
+                    faction: installFaction,
+                })
+            });
+
+            const data = await result.json();
+
+            if (data.success) {
+                document.getElementById('install-form').style.display = 'none';
+                document.getElementById('install-success').style.display = 'block';
+                setTimeout(() => window.location.href = 'index.php?page=login', 2000);
+            } else {
+                showMsg(data.error || 'Installation failed', 'error');
+                btn.disabled = false;
+                btn.textContent = 'Install';
+            }
+        }
+    </script>
+</body>
+</html>
