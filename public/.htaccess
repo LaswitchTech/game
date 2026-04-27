@@ -6,8 +6,28 @@
     AddType image/svg+xml .svg
 </IfModule>
 
-# Disable directory listing
-Options -Indexes
+# Disable directory listing and content negotiation
+Options -Indexes -MultiViews
 
 # Set default charset
 AddDefaultCharset UTF-8
+
+# Rewrite engine
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # API: all /api/* goes to api/index.php
+    RewriteCond %{REQUEST_URI} ^/api/
+    RewriteRule ^api/(.*)$ api/index.php?q=$1 [L,QSA]
+
+    # Page routes
+    RewriteRule ^install$ index.php?page=install [L,QSA]
+    RewriteRule ^uninstall$ index.php?page=uninstall [L,QSA]
+    RewriteRule ^galaxy$ index.php?page=galaxy [L,QSA]
+
+    # Default: login page
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^$ index.php?page=login [L,QSA]
+</IfModule>

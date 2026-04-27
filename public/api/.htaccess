@@ -4,7 +4,9 @@
     RewriteBase /api/
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php [QSA,L]
+    RewriteRule ^(.+)$ index.php [L,QSA]
+    # Static PHP files pass through
+    RewriteRule \.php$ - [L]
 </IfModule>
 
 <IfModule !mod_rewrite.c>

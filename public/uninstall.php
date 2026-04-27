@@ -88,7 +88,7 @@
                 return;
             }
 
-            const result = await fetch('api/uninstall', { method: 'POST' });
+            const result = await fetch('api/uninstall.php', { method: 'POST' });
             const data = await result.json();
 
             const msg = document.getElementById('uninstall-msg');
