@@ -59,6 +59,9 @@ class Router
         $router->addRoute('GET', '/flood/state', 'Api\Controller\FloodController@getState');
         $router->addRoute('GET', '/flood/events', 'Api\Controller\FloodController@getEvents');
 
+        // Galaxy
+        $router->addRoute('GET', '/galaxy', 'Api\Controller\GalaxyController@getMap');
+
         return $router;
     }
 }

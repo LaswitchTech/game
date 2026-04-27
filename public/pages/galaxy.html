@@ -23,19 +23,26 @@
             </div>
         </nav>
 
-        <main class="galaxy-main">
-            <div id="galaxy-view" class="galaxy-canvas-container">
-                <div id="galaxy-loading" class="galaxy-loading">Loading galaxy...</div>
-                <canvas id="galaxy-canvas"></canvas>
-                <div id="galaxy-info" class="galaxy-info-panel" style="display:none;">
-                    <h3 id="galaxy-info-name"></h3>
-                    <p id="galaxy-info-details"></p>
-                    <div id="galaxy-info-actions"></div>
-                    <button id="galaxy-info-close" class="btn btn-secondary">Close</button>
-                </div>
-                <div id="galaxy-hint" class="galaxy-hint">Click a planet to inspect</div>
+        <div class="galaxy-toolbar">
+            <div class="galaxy-toolbar-title">Galaxy Command</div>
+            <div class="galaxy-toolbar-tabs">
+                <button class="galaxy-tab active" id="tab-galaxy-map" onclick="GalaxyView.setTab('map')">Galaxy Map</button>
+                <button class="galaxy-tab" id="tab-solar-system" onclick="GalaxyView.setTab('system')">Solar System</button>
+                <div class="galaxy-tab-divider"></div>
+                <button class="galaxy-tab" onclick="GalaxyView.setTab('map')">Back to Map</button>
             </div>
-        </main>
+            <div class="galaxy-toolbar-info" id="galaxy-toolbar-status"></div>
+        </div>
+        <div id="galaxy-view" class="galaxy-canvas-container">
+            <div id="galaxy-loading" class="galaxy-loading">Loading galaxy...</div>
+            <canvas id="galaxy-canvas"></canvas>
+            <div id="galaxy-info" class="galaxy-info-panel" style="display:none;">
+                <h3 id="galaxy-info-name"></h3>
+                <p id="galaxy-info-details"></p>
+                <div id="galaxy-info-actions"></div>
+                <button id="galaxy-info-close" class="btn btn-secondary">Close</button>
+            </div>
+        </div>
     </div>
 
     <div class="bottom-dock">
@@ -63,10 +70,13 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="../js/galaxy-map.js"></script>
     <script src="../js/solar-system.js"></script>
     <script src="../js/api.js"></script>
     <script src="../js/game.js"></script>
     <script>
+        const GalaxyView = new GalaxyView();
+
         document.getElementById('logout-btn').addEventListener('click', e => {
             e.preventDefault();
             Api.logout().then(() => window.location.href = 'login.html');
@@ -84,8 +94,8 @@
                 document.getElementById('galaxy-info').style.display = 'none';
             }
         });
-        const galaxy = new GalaxyView();
-        galaxy.init();
+
+        GalaxyView.init();
     </script>
 </body>
 </html>

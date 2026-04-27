@@ -5,6 +5,65 @@
     background: radial-gradient(ellipse at center, #0a1628 0%, #000000 100%);
 }
 
+/* Galaxy toolbar */
+.galaxy-toolbar {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 6px 12px;
+    background: linear-gradient(135deg, rgba(13,33,55,0.95), rgba(15,52,96,0.92));
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    z-index: 150;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+.galaxy-toolbar-title {
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.galaxy-toolbar-tabs {
+    display: flex;
+    gap: 2px;
+}
+
+.galaxy-tab {
+    padding: 4px 10px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.galaxy-tab:hover {
+    color: var(--text-primary);
+    background: rgba(20,184,166,0.1);
+}
+
+.galaxy-tab.active {
+    color: var(--accent);
+    background: rgba(20,184,166,0.15);
+    border-color: var(--accent);
+}
+
+.galaxy-tab-divider {
+    width: 1px;
+    background: var(--border);
+    margin: 4px 4px;
+}
+
 .galaxy-canvas-container {
     position: relative;
     width: 100%;
@@ -80,12 +139,11 @@
     animation: pulse 2s infinite;
 }
 
-/* Dock sits above galaxy canvas */
-.galaxy-main .bottom-dock {
-    z-index: 200;
-}
-
 @keyframes pulse {
     0%, 100% { opacity: 0.5; }
     50% { opacity: 1; }
+}
+
+.galaxy-main .bottom-dock {
+    z-index: 200;
 }

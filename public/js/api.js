@@ -29,4 +29,5 @@ const Api = {
     async deployToOrbit(ships) { return this.request('PUT', '/fleet/orbit/deploy', { ships }); },
     async recallFromOrbit(ships) { return this.request('PUT', '/fleet/orbit/recall', { ships }); },
     async getOrbitalDefense() { return this.request('GET', '/fleet/orbital-defense'); },
+    async getGalaxyMap() { return this.request('GET', '/galaxy'); },
 };
