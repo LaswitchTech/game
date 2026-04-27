@@ -1,0 +1,86 @@
+.galaxy-main {
+    width: 100vw;
+    height: calc(100vh - 50px);
+    overflow: hidden;
+    background: radial-gradient(ellipse at center, #0a1628 0%, #000000 100%);
+}
+
+.galaxy-canvas-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#galaxy-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.galaxy-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--accent);
+    font-size: 1.2rem;
+    pointer-events: none;
+    transition: opacity 0.5s;
+}
+
+.galaxy-info-panel {
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 280px;
+    background: rgba(13, 33, 55, 0.95);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    z-index: 100;
+}
+
+.galaxy-info-panel h3 {
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
+}
+
+.galaxy-info-panel p {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+.galaxy-info-panel .info-section {
+    margin: 0.8rem 0;
+    padding: 0.8rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+}
+
+.galaxy-info-panel .info-section h4 {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+}
+
+.galaxy-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    pointer-events: none;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}

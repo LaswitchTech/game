@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galactic Empire - Galaxy</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/galaxy.css">
+</head>
+<body class="faction-unsc">
+    <div class="game-layout">
+        <nav class="top-bar">
+            <div class="top-bar-left">
+                <a href="galaxy.html" class="game-title">Galactic Empire</a>
+                <span id="faction-badge" style="margin-left:0.5rem; font-size:0.8rem; color:var(--accent);"></span>
+            </div>
+            <div class="resource-bar">
+                <span class="resource supply"><span id="res-supply">0</span></span>
+                <span class="resource gas"><span id="res-gas">0</span></span>
+            </div>
+            <div class="top-bar-right">
+                <a href="planet.html" class="nav-link">Planet</a>
+                <a href="shipyard.html" class="nav-link">Shipyard</a>
+                <a href="research.html" class="nav-link">Research</a>
+                <a href="fleet.html" class="nav-link">Fleet</a>
+                <a href="galaxy.html" class="nav-link active">Galaxy</a>
+                <a href="#" class="nav-link" id="logout-btn">Logout</a>
+            </div>
+        </nav>
+
+        <main class="galaxy-main">
+            <div id="galaxy-view" class="galaxy-canvas-container">
+                <div id="galaxy-loading" class="galaxy-loading">Loading galaxy...</div>
+                <canvas id="galaxy-canvas"></canvas>
+                <div id="galaxy-info" class="galaxy-info-panel" style="display:none;">
+                    <h3 id="galaxy-info-name"></h3>
+                    <p id="galaxy-info-details"></p>
+                    <div id="galaxy-info-actions"></div>
+                    <button id="galaxy-info-close" class="btn btn-secondary">Close</button>
+                </div>
+                <div id="galaxy-hint" class="galaxy-hint">Click a planet to inspect</div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="../js/solar-system.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/game.js"></script>
+    <script>
+        document.getElementById('logout-btn').addEventListener('click', e => {
+            e.preventDefault();
+            Api.logout().then(() => window.location.href = 'login.html');
+        });
+        document.getElementById('galaxy-info-close').addEventListener('click', () => {
+            document.getElementById('galaxy-info').style.display = 'none';
+        });
+        document.getElementById('galaxy-info').addEventListener('click', e => {
+            if (e.target === document.getElementById('galaxy-info')) {
+                document.getElementById('galaxy-info').style.display = 'none';
+            }
+        });
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') {
+                document.getElementById('galaxy-info').style.display = 'none';
+            }
+        });
+        const galaxy = new GalaxyView();
+        galaxy.init();
+    </script>
+</body>
+</html>
