@@ -52,6 +52,10 @@ class Router
         $router->addRoute('POST', '/fleet/send', 'Api\Controller\FleetController@sendFleet');
         $router->addRoute('GET', '/fleet/active', 'Api\Controller\FleetController@getActiveFleets');
 
+        // Flood
+        $router->addRoute('GET', '/flood/state', 'Api\Controller\FloodController@getState');
+        $router->addRoute('GET', '/flood/events', 'Api\Controller\FloodController@getEvents');
+
         return $router;
     }
 }

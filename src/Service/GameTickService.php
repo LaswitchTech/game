@@ -9,10 +9,13 @@ use Model\Ship;
 
 class GameTickService
 {
-    public static function tickPlanet(int $userId, string $faction): void
+    public static function tickPlanet(int $gameTick, int $userId, string $faction): void
     {
         $planet = Planet::findByUserId($userId, $faction);
         if ($planet === null) return;
+
+        // Check flood emergence
+        FloodService::checkEmergence($gameTick);
 
         $planetId = $planet->getId();
         $buildings = $planet->getBuildings();
@@ -107,6 +110,9 @@ class GameTickService
 
         // Process fleets
         self::processFleets($planetId);
+
+        // Process flood spread
+        FloodService::tick($gameTick, $userId, $faction);
     }
 
     private static function processFleets(int $planetId): void
@@ -129,15 +135,19 @@ class GameTickService
         }
     }
 
-    public static function tickAllUsers(): void
+    public static function tickAllUsers(int $gameTick = 0): void
     {
         $db = \Database\Connection::getInstance();
+
+        // Initialize flood state if needed
+        Flood::initialize();
+
         $stmt = $db->query('SELECT id, faction FROM users WHERE faction IS NOT NULL');
         $users = $stmt->fetchAll();
 
         foreach ($users as $userRow) {
             try {
-                self::tickPlanet($userRow['id'], $userRow['faction']);
+                self::tickPlanet($gameTick, $userRow['id'], $userRow['faction']);
             } catch (\Throwable $e) {
                 error_log('Game tick error for user ' . $userRow['id'] . ': ' . $e->getMessage());
             }
