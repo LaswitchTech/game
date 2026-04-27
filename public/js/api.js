@@ -26,4 +26,7 @@ const Api = {
     async getShipTypes() { return this.request('GET', '/shipyard/ship-types'); },
     async sendFleet(system, planet, type, ships) { return this.request('POST', '/fleet/send', { target_system: system, target_planet: planet, mission_type: type, ships }); },
     async getActiveFleets() { return this.request('GET', '/fleet/active'); },
+    async deployToOrbit(ships) { return this.request('PUT', '/fleet/orbit/deploy', { ships }); },
+    async recallFromOrbit(ships) { return this.request('PUT', '/fleet/orbit/recall', { ships }); },
+    async getOrbitalDefense() { return this.request('GET', '/fleet/orbital-defense'); },
 };

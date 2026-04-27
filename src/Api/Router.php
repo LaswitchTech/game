@@ -51,6 +51,9 @@ class Router
         // Fleet
         $router->addRoute('POST', '/fleet/send', 'Api\Controller\FleetController@sendFleet');
         $router->addRoute('GET', '/fleet/active', 'Api\Controller\FleetController@getActiveFleets');
+        $router->addRoute('PUT', '/fleet/orbit/deploy', 'Api\Controller\FleetController@deployToOrbit');
+        $router->addRoute('PUT', '/fleet/orbit/recall', 'Api\Controller\FleetController@recallFromOrbit');
+        $router->addRoute('GET', '/fleet/orbital-defense', 'Api\Controller\FleetController@getOrbitalDefense');
 
         // Flood
         $router->addRoute('GET', '/flood/state', 'Api\Controller\FloodController@getState');

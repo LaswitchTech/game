@@ -31,6 +31,24 @@
             <h1>Fleet Command</h1>
             <div class="fleet-grid">
                 <div class="panel">
+                    <h3>Orbital Defense</h3>
+                    <div class="orbital-stats" id="orbital-stats">
+                        <div class="stat-row"><span>Ships in orbit:</span><span id="orbit-count">0</span></div>
+                        <div class="stat-row"><span>Capacity:</span><span id="orbit-capacity">500</span></div>
+                        <div class="stat-row"><span>Attack:</span><span id="orbit-attack">0</span></div>
+                        <div class="stat-row"><span>Shield:</span><span id="orbit-shield">0</span></div>
+                        <div class="stat-row"><span>Armor:</span><span id="orbit-armor">0</span></div>
+                    </div>
+                    <div class="orbital-deploy" id="orbital-deploy-panel">
+                        <h4>Manage Orbit</h4>
+                        <div id="orbit-ship-list"></div>
+                        <div class="orbital-actions">
+                            <button class="btn btn-secondary" onclick="App.openOrbitalPanel('deploy')">Deploy</button>
+                            <button class="btn btn-secondary" onclick="App.openOrbitalPanel('recall')">Recall</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
                     <h3>Dispatch Fleet</h3>
                     <div class="dispatch-form">
                         <div class="form-group">

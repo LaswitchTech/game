@@ -242,8 +242,9 @@ const App = {
     renderFleet() {
         const myShips = document.getElementById('my-ships');
         if (myShips) {
-            if (this.state.planet.ships.length > 0) {
-                myShips.innerHTML = this.state.planet.ships.map(s =>
+            const planetShips = this.state.planet.ships.filter(s => s.orbit_status === 'planet' || !s.orbit_status);
+            if (planetShips.length > 0) {
+                myShips.innerHTML = planetShips.map(s =>
                     `<div class="my-ship-row"><span>${s.key}</span><span>x${s.count}</span><input type="checkbox" id="dispatch-${s.key}"></div>`
                 ).join('');
             } else {
@@ -265,6 +266,93 @@ const App = {
         const dispatchBtn = document.getElementById('dispatch-btn');
         if (dispatchBtn) {
             dispatchBtn.onclick = () => this.dispatchFleet();
+        }
+
+        // Orbital defense
+        this.renderOrbitalDefense();
+    },
+
+    async renderOrbitalDefense() {
+        const defense = await Api.getOrbitalDefense();
+        if (!defense) return;
+
+        const countEl = document.getElementById('orbit-count');
+        const capacityEl = document.getElementById('orbit-capacity');
+        const attackEl = document.getElementById('orbit-attack');
+        const shieldEl = document.getElementById('orbit-shield');
+        const armorEl = document.getElementById('orbit-armor');
+        if (countEl) countEl.textContent = defense.orbit_ships;
+        if (capacityEl) capacityEl.textContent = defense.orbit_capacity;
+        if (attackEl) attackEl.textContent = defense.attack;
+        if (shieldEl) shieldEl.textContent = defense.shield;
+        if (armorEl) armorEl.textContent = defense.armor;
+
+        // List ships in orbit vs on planet
+        const listEl = document.getElementById('orbit-ship-list');
+        if (!listEl) return;
+        const planetShips = this.state.planet.ships || [];
+        const orbitShips = [];
+        const planetShipsList = [];
+        for (const s of planetShips) {
+            // We'll show all ships with a selector
+        }
+        let html = '';
+        for (const s of planetShips) {
+            html += `<div class="orbit-ship-row"><span>${s.key} (x${s.count})</span><input type="number" class="orbit-qty" data-key="${s.key}" data-max="${s.count}" min="0" max="${s.count}" value="0"></div>`;
+        }
+        if (planetShips.length === 0) {
+            html = '<p class="empty-queue">No ships</p>';
+        }
+        listEl.innerHTML = html;
+    },
+
+    openOrbitalPanel(mode) {
+        const listEl = document.getElementById('orbit-ship-list');
+        const actionsEl = listEl.parentElement.querySelector('.orbital-actions');
+        if (!listEl) return;
+
+        const planetShips = this.state.planet.ships || [];
+        // Filter by orbit_status if available from API
+        const ships = mode === 'deploy'
+            ? planetShips.filter(s => s.orbit_status === 'planet' || !s.orbit_status)
+            : planetShips.filter(s => s.orbit_status === 'orbit');
+        let html = `<label>Select ships to ${mode}:</label>`;
+        for (const s of ships) {
+            if (mode === 'deploy') {
+                html += `<div class="orbit-ship-row"><span>${s.key} (on planet: x${s.count})</span><input type="number" class="orbit-qty" data-key="${s.key}" data-max="${s.count}" min="0" max="${s.count}" value="0"></div>`;
+            } else {
+                html += `<div class="orbit-ship-row"><span>${s.key} (in orbit: x${s.count})</span><input type="number" class="orbit-qty" data-key="${s.key}" data-max="${s.count}" min="0" value="0"></div>`;
+            }
+        }
+        listEl.innerHTML = html;
+        listEl.classList.add('orbital-panel');
+
+        // Replace actions with confirm/cancel
+        if (actionsEl) {
+            actionsEl.innerHTML = `
+                <button class="btn btn-primary" onclick="App.confirmOrbital('${mode}')">Confirm</button>
+                <button class="btn btn-secondary" onclick="App.renderOrbitalDefense()">Cancel</button>
+            `;
+        }
+    },
+
+    async confirmOrbital(mode) {
+        const inputs = document.querySelectorAll('#orbit-ship-list .orbit-qty');
+        const ships = {};
+        for (const input of inputs) {
+            const val = parseInt(input.value) || 0;
+            if (val > 0) ships[input.dataset.key] = val;
+        }
+        if (Object.keys(ships).length === 0) { alert('Select at least one ship'); return; }
+
+        const fn = (mode === 'deploy') ? Api.deployToOrbit : Api.recallFromOrbit;
+        const result = await fn(ships);
+        if (result.success) {
+            this.state.planet = await Api.getPlanet();
+            this.updateResources();
+            this.renderFleet();
+        } else {
+            alert(result.error);
         }
     },
 

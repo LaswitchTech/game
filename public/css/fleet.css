@@ -11,3 +11,15 @@
 .my-ship-row { display: flex; justify-content: space-between; align-items: center; padding: 0.3rem 0.5rem; background: var(--bg-input); border-radius: 4px; font-size: 0.8rem; }
 .my-ship-row input[type="checkbox"] { width: auto; }
 .my-ship-row input[type="number"] { width: 50px; padding: 0.2rem; background: var(--bg-dark); border: 1px solid var(--border); border-radius: 3px; color: var(--text-primary); font-size: 0.75rem; text-align: center; }
+
+/* Orbital defense */
+.orbital-stats { margin-bottom: 1rem; }
+.stat-row { display: flex; justify-content: space-between; padding: 0.3rem 0.5rem; font-size: 0.8rem; border-bottom: 1px solid var(--border); }
+.stat-row span:last-child { color: var(--accent); font-weight: bold; }
+.orbital-deploy { margin-top: 1rem; }
+.orbital-deploy h4 { margin: 0.5rem 0; font-size: 0.9rem; }
+.orbit-ship-row { display: flex; justify-content: space-between; align-items: center; padding: 0.3rem 0.5rem; gap: 0.5rem; font-size: 0.8rem; }
+.orbit-ship-row .orbit-qty { width: 60px; padding: 0.2rem; text-align: center; background: var(--bg-dark); border: 1px solid var(--border); border-radius: 3px; color: var(--text-primary); font-size: 0.75rem; }
+.orbital-actions { display: flex; gap: 0.5rem; margin-top: 0.8rem; }
+.orbital-panel { margin-top: 0.8rem; padding: 0.8rem; background: var(--bg-input); border-radius: 4px; }
+.orbital-panel label { font-size: 0.8rem; color: var(--text-secondary); }

@@ -34,7 +34,7 @@ class PlanetController
         $ships = [];
         foreach ($planet->getShips() as $s) {
             if ($s['faction'] === $faction) {
-                $ships[] = ['key' => $s['ship_key'], 'count' => $s['count']];
+                $ships[] = ['key' => $s['ship_key'], 'count' => $s['count'], 'orbit_status' => $s['orbit_status']];
             }
         }
 
