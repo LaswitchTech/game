@@ -56,8 +56,51 @@ body {
 .nav-link:hover { color: var(--text-primary); background: var(--bg-input); }
 .nav-link.active { color: var(--accent); border-bottom: 2px solid var(--accent); }
 
-.main-content { max-width: 1200px; margin: 0 auto; padding: 1rem; }
+.main-content { max-width: 1200px; margin: 0 auto; padding: 1rem; padding-bottom: 80px; }
 .game-layout { min-height: 100vh; }
+
+/* Bottom Dock */
+.bottom-dock {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 4px; padding: 8px 12px;
+  background: linear-gradient(135deg, rgba(13,33,55,0.92), rgba(15,52,96,0.88));
+  border: 1px solid var(--border); border-radius: 16px;
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 1px var(--accent);
+  z-index: 100;
+}
+.dock-item {
+  position: relative; display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: rgba(15,52,96,0.4); border: 1px solid transparent;
+  text-decoration: none; cursor: pointer; transition: all 0.2s;
+}
+.dock-item:hover {
+  background: rgba(20,184,166,0.15); border-color: var(--accent);
+  box-shadow: 0 0 12px rgba(20,184,166,0.3);
+}
+.dock-item.active {
+  background: rgba(20,184,166,0.2); border-color: var(--accent);
+  box-shadow: 0 0 16px rgba(20,184,166,0.4);
+}
+.dock-item.active::after {
+  content: ''; position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%);
+  width: 4px; height: 4px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 6px var(--accent);
+}
+.dock-item .dock-label {
+  position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+  white-space: nowrap; font-size: 0.7rem; color: var(--text-secondary);
+  background: rgba(10,22,40,0.9); padding: 2px 6px; border-radius: 4px;
+  opacity: 0; pointer-events: none; transition: opacity 0.15s;
+}
+.dock-item:hover .dock-label { opacity: 1; }
+.dock-item .dock-icon {
+  width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; color: var(--text-secondary); transition: color 0.2s;
+}
+.dock-item:hover .dock-icon, .dock-item.active .dock-icon { color: var(--accent); }
+.dock-divider { width: 1px; background: var(--border); margin: 4px 2px; }
 
 /* Panels */
 .panel { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; }

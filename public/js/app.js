@@ -10,6 +10,11 @@ const App = {
         document.body.classList.add('faction-' + this.state.faction);
         document.getElementById('faction-badge').textContent = this.state.faction.toUpperCase();
 
+        // Set active dock item
+        document.querySelectorAll('.dock-item').forEach(item => {
+            item.classList.toggle('active', item.dataset.page === tab);
+        });
+
         this.state.planet = await Api.getPlanet();
         this.state.buildingTypes = await Api.getBuildingTypes();
         this.state.researchTypes = await Api.getResearchTypes();

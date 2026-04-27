@@ -71,13 +71,18 @@
 
 .galaxy-hint {
     position: absolute;
-    bottom: 2rem;
+    bottom: 5rem;
     left: 50%;
     transform: translateX(-50%);
     color: var(--text-secondary);
     font-size: 0.85rem;
     pointer-events: none;
     animation: pulse 2s infinite;
+}
+
+/* Dock sits above galaxy canvas */
+.galaxy-main .bottom-dock {
+    z-index: 200;
 }
 
 @keyframes pulse {
