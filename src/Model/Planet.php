@@ -139,6 +139,13 @@ class Planet
         return array_map([self::class, 'fromRow'], $rows);
     }
 
+    public function recordProductionHistory(int $tick, int $supply, int $power, int $gas, int $powerBalance): void
+    {
+        $db = Connection::getInstance();
+        $db->prepare('INSERT INTO production_history (planet_id, tick, supply, power, gas, power_balance) VALUES (?, ?, ?, ?, ?, ?)')
+            ->execute([$this->id, $tick, $supply, $power, $gas, $powerBalance]);
+    }
+
     private static function fromRow(array $row): self
     {
         return new self(

@@ -15,10 +15,17 @@ class Mission
             if ($current < $count) return ['error' => "Insufficient {$key} on planet"];
         }
 
-        // Calculate travel time
+        // Calculate gas cost for fleet dispatch (distance-based)
         $distance = abs($targetSystem - 1) + abs($targetPlanet - 1);
         if ($distance < 1) return ['error' => 'Cannot send fleet to current planet'];
+        $gasCost = $distance * 100;
 
+        // Check resources
+        $res = self::getPlanetResources($planetId);
+        if ($res === null) return ['error' => 'Planet not found'];
+        if ($res['gas'] < $gasCost) return ['error' => "Insufficient gas. Need: {$gasCost}"];
+
+        // Calculate travel time
         $propulsionLevel = Technology::getLevel($planetId, 'propulsion_tech');
         $hyperDriveLevel = Technology::getLevel($planetId, 'hyperdrive_tech');
         $speed = 10000;
@@ -28,6 +35,10 @@ class Mission
         $arrivalAt = date('Y-m-d H:i:s', strtotime("+{$travelTime} seconds"));
 
         $db = Connection::getInstance();
+
+        // Deduct gas from planet
+        $db->prepare('UPDATE resources SET gas = gas - ? WHERE planet_id = ?')
+            ->execute([$gasCost, $planetId]);
 
         // Remove ships from planet
         foreach ($ships as $key => $count) {
@@ -41,6 +52,14 @@ class Mission
             ->execute([$planetId, $shipsJson, $targetSystem, $targetPlanet, $departureAt, $arrivalAt, $missionType, $faction]);
 
         return ['success' => true, 'fleet_id' => (int)$db->lastInsertId(), 'arrival_at' => $arrivalAt];
+    }
+
+    private static function getPlanetResources(int $planetId): ?array
+    {
+        $db = Connection::getInstance();
+        $stmt = $db->prepare('SELECT * FROM resources WHERE planet_id = ?');
+        $stmt->execute([$planetId]);
+        return $stmt->fetch() ?: null;
     }
 
     public static function getActive(): array
