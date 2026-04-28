@@ -478,14 +478,14 @@ class GalaxyMap {
         if (!isSameAsSelected && !hasPlayerPlanet) {
             actions = `
                 <button class="btn btn-primary" onclick="GalaxyView.dispatchFleet('${cell.key}')">Send Fleet</button>
-                <button class="btn btn-secondary" onclick="GalaxyView.setView('system', GalaxyMap.instance.getCellByKey('${cell.key}'))">View System</button>
+                <button class="btn btn-secondary" onclick="GalaxyView.setView('system', window._galaxyMapInstance.getCellByKey('${cell.key}'))">View System</button>
             `;
         } else if (!hasPlayerPlanet) {
             actions = `
-                <button class="btn btn-primary" onclick="GalaxyView.setView('system', GalaxyMap.instance.getCellByKey('${cell.key}'))">View System</button>
+                <button class="btn btn-primary" onclick="GalaxyView.setView('system', window._galaxyMapInstance.getCellByKey('${cell.key}'))">View System</button>
             `;
         } else {
-            actions = `<a href="planet.html" class="btn btn-primary">Manage Planet</a>`;
+            actions = `<a href="index.php?page=planet" class="btn btn-primary">Manage Planet</a>`;
         }
         actionsEl.innerHTML = actions;
 
@@ -505,3 +505,6 @@ class GalaxyMap {
 
 // Singleton instance for cross-reference
 GalaxyMap.prototype.getCellByKey = GalaxyMap.prototype.getCellByKey;
+
+// Reference for cross-component access
+window._galaxyMapInstance = null;

@@ -4,7 +4,7 @@ const App = {
     async init(tab = 'planet') {
         this.state.currentTab = tab;
         this.state.user = await Api.getMe();
-        if (!this.state.user) return window.location.href = '/pages/login.html';
+        if (!this.state.user) return window.location.href = 'index.php?page=login';
 
         this.state.faction = this.state.user.faction || 'unsc';
         document.body.classList.add('faction-' + this.state.faction);

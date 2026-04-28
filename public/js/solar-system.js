@@ -57,7 +57,7 @@ class GalaxyView {
         const [sys, pos] = cellKey.split(',');
 
         // Check if there are selected cells for fleet
-        const gridData = window.GalaxyMap?.gridCells;
+        const gridData = window._galaxyMapInstance?.gridCells;
         let fleetFrom = null;
         if (gridData) {
             for (const cell of gridData) {
@@ -99,17 +99,14 @@ class GalaxyView {
         }
 
         // Use 2D canvas for map
-        if (!window.GalaxyMap) {
-            window.GalaxyMap = new GalaxyMap();
+        if (!(window._galaxyMapInstance instanceof GalaxyMap)) {
+            window._galaxyMapInstance = new GalaxyMap();
         }
-        window.GalaxyMap.init();
+        window._galaxyMapInstance.init();
     }
 
     initSolarSystem(cellData = null) {
-        // Clean up 2D map
-        if (window.GalaxyMap) {
-            // Galaxy map handles its own cleanup
-        }
+        // Galaxy map handles its own cleanup
 
         const canvas = document.getElementById('galaxy-canvas');
         const container = document.getElementById('galaxy-view');
@@ -362,16 +359,16 @@ class GalaxyView {
 
         let actions = '';
         if (data.name.startsWith('Home')) {
-            actions = `<a href="planet.html" class="btn btn-primary">Visit Planet</a>`;
+            actions = `<a href="index.php?page=planet" class="btn btn-primary">Visit Planet</a>`;
         } else if (data.is_player) {
-            actions = `<a href="fleet.html" class="btn btn-primary">Manage Fleet</a>`;
+            actions = `<a href="index.php?page=fleet" class="btn btn-primary">Manage Fleet</a>`;
         } else if (data.name.startsWith('Halo')) {
             actions = `
                 <button class="btn btn-secondary" disabled>Requires Halo Activation Tech</button>
-                <a href="research.html" class="btn btn-primary">Research</a>
+                <a href="index.php?page=research" class="btn btn-primary">Research</a>
             `;
         } else {
-            actions = `<a href="fleet.html" class="btn btn-secondary">Explore</a>`;
+            actions = `<a href="index.php?page=fleet" class="btn btn-secondary">Explore</a>`;
         }
         actionsEl.innerHTML = actions;
 

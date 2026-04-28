@@ -11,7 +11,7 @@
     <div class="game-layout">
         <nav class="top-bar">
             <div class="top-bar-left">
-                <a href="planet.html" class="game-title">Galactic Empire</a>
+                <a href="index.php?page=planet" class="game-title">Galactic Empire</a>
                 <span id="faction-badge" style="margin-left:0.5rem; font-size:0.8rem; color:var(--accent);"></span>
             </div>
             <div class="resource-bar">
@@ -58,24 +58,24 @@
     </div>
 
     <div class="bottom-dock">
-        <a href="planet.html" class="dock-item" data-page="planet">
+        <a href="index.php?page=planet" class="dock-item" data-page="planet">
             <span class="dock-label">Planet</span>
             <span class="dock-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M12 3c2.5 3 2.5 9 0 12"/></svg></span>
         </a>
-        <a href="shipyard.html" class="dock-item" data-page="shipyard">
+        <a href="index.php?page=shipyard" class="dock-item" data-page="shipyard">
             <span class="dock-label">Shipyard</span>
             <span class="dock-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></span>
         </a>
-        <a href="research.html" class="dock-item" data-page="research">
+        <a href="index.php?page=research" class="dock-item" data-page="research">
             <span class="dock-label">Research</span>
             <span class="dock-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L9 9H2l6 4.5L5.5 22 12 16.5 18.5 22 14 13.5 20 9h-7z"/></svg></span>
         </a>
-        <a href="fleet.html" class="dock-item" data-page="fleet">
+        <a href="index.php?page=fleet" class="dock-item" data-page="fleet">
             <span class="dock-label">Fleet</span>
             <span class="dock-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3 7h6l-5 4 2 7L12 16l-7 4 2-7-5-4h6z"/></svg></span>
         </a>
         <div class="dock-divider"></div>
-        <a href="galaxy.html" class="dock-item" data-page="galaxy">
+        <a href="galaxy" class="dock-item" data-page="galaxy">
             <span class="dock-label">Galaxy</span>
             <span class="dock-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.2 4.2l2.8 2.8M17 17l2.8 2.8M1 12h4M19 12h4M4.2 19.8l2.8-2.8M17 7l2.8-2.8"/></svg></span>
         </a>
@@ -100,7 +100,7 @@
     <script>
         document.getElementById('logout-btn').addEventListener('click', e => {
             e.preventDefault();
-            Api.logout().then(() => window.location.href = 'login.html');
+            Api.logout().then(() => window.location.href = 'index.php?page=login');
         });
         App.init('planet');
     </script>

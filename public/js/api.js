@@ -7,7 +7,7 @@ const Api = {
         try {
             const response = await fetch(this.baseUrl + path, options);
             const result = await response.json();
-            if (response.status === 401) window.location.href = '/pages/login.html';
+            if (response.status === 401) window.location.href = 'index.php?page=login';
             return result;
         } catch (error) { return { error: 'Connection failed' }; }
     },

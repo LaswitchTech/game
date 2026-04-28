@@ -102,7 +102,7 @@
             const password = document.getElementById('login-password').value;
             const result = await Api.login(username, password);
             if (result.user_id) {
-                window.location.href = '../pages/planet.html';
+                window.location.href = '../index.php?page=planet';
             } else {
                 showMsg('login-msg', result.error, 'error');
             }
@@ -117,7 +117,7 @@
                 showMsg('register-msg', 'Account created! Logging in...', 'success');
                 const loginResult = await Api.login(username, password);
                 if (loginResult.user_id) {
-                    window.location.href = '../pages/planet.html';
+                    window.location.href = '../index.php?page=planet';
                 }
             } else {
                 showMsg('register-msg', result.error, 'error');

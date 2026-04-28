@@ -10,6 +10,7 @@ class GalaxyController
     public function getMap(array $params): array
     {
         $user = AuthService::requireAuth();
+        if ($user === null) return ['error' => 'Authentication required', 'code' => 401];
         $faction = $user->getFaction();
 
         $db = \Database\Connection::getInstance();
